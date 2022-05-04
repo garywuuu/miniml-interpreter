@@ -129,7 +129,7 @@ let rec eval_s (_exp : expr) (_env : Env.env) : Env.value =
   let val_to_expr (exp : expr) : expr = 
     match eval_s exp _env with 
     | Env.Val exp -> exp
-    | Env.Closure (_, env) -> raise (EvalError "Closure") in
+    | _ -> raise (EvalError "Closure") in
 
   match _exp with 
   | Num _ | Float _ | Bool _ | String _ | Fun _ -> Env.Val _exp 
