@@ -17,6 +17,7 @@
     create_hashtable 8 [
                        ("if", IF);
                        ("in", IN);
+                       ("sin", SIN);
                        ("then", THEN);
                        ("else", ELSE);
                        ("let", LET);
@@ -41,10 +42,6 @@
                        ("~-", NEG);
                        ("~+", ABS);
                        ("+", PLUS);
-                       ("[]", EMPTYLIST);
-                       ("[", LEFTBRACKET);
-                       ("]", RIGHTBRACKET);
-                       (",", LISTSEP);
                        ("-", MINUS);
                        ("*", TIMES);
                        ("/", DIVIDE);

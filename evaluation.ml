@@ -76,8 +76,9 @@ module Env : ENV =
       | exception Not_found -> raise (EvalError "not found") ;;  
 
     let extend (env : env) (varname : varid) (loc : value ref) : env =
-      let e = ref env in e := (List.remove_assoc varname !e) ; e := !e @ [varname, loc] ; !e ;;
-
+      let e = ref env in e := (List.remove_assoc varname !e) ; 
+      e := !e @ [varname, loc] ; !e ;;
+  
     let rec value_to_string ?(printenvp : bool = true) (v : value) : string =
       (* if not printenvp then match v with  *) 
       match v with 
@@ -86,9 +87,9 @@ module Env : ENV =
                               else env_to_string env ^ exp_to_concrete_string exp 
        and
     env_to_string (env : env) : string =
-      "{" ^ match env with 
-      | [] -> "}"
-      | (v, e) :: t -> v ^ value_to_string !e ^ env_to_string t 
+      match env with 
+      | [] -> ""
+      | (v, e) :: t -> "{" ^ v ^ " -> " ^ value_to_string !e ^ env_to_string t ^ "}" 
       ;;
   end
 ;;
@@ -139,13 +140,16 @@ let rec eval_s (_exp : expr) (_env : Env.env) : Env.value =
     | Negate, Float f -> Env.Val (Float (-1. *. f))
     | Abs, Num n -> Env.Val (Num (abs n))
     | Abs, Float f -> Env.Val (Float (abs_float f))
+    | Sin, Num n -> Env.Val (Float (sin (float_of_int n)))
+    | Sin, Float f -> Env.Val (Float (sin f))
     | _ -> raise (EvalError "can not perform unop on number-less expression"))
   | Binop (bin, e1, e2) -> (match eval_s e1 _env, eval_s e2 _env with 
                             | Env.Val (Num a), Env.Val (Num b) ->  
                               (match bin with  
                               | Plus -> Env.Val (Num (a + b))
                               | Times -> Env.Val (Num (a * b))
-                              | Divide -> Env.Val (Num (a / b))
+                              | Divide -> Env.Val (Float 
+                                ((float_of_int a) /. (float_of_int b)))
                               | Minus -> Env.Val (Num (a - b))
                               | Equals -> Env.Val (Bool (a = b))
                               | LessThan -> Env.Val (Bool (a < b))
@@ -212,13 +216,16 @@ let rec eval_d (_exp : expr) (_env : Env.env) : Env.value =
     | Negate, Float f -> Env.Val (Float (-1. *. f))
     | Abs, Num n -> Env.Val (Num (abs n))
     | Abs, Float f -> Env.Val (Float (abs_float f))
+    | Sin, Num n -> Env.Val (Float (sin (float_of_int n)))
+    | Sin, Float f -> Env.Val (Float (sin f))
     | _ -> raise (EvalError "can not perform unop on number-less expression"))
   | Binop (bin, e1, e2) -> (match eval_d e1 _env, eval_d e2 _env with 
                             | Env.Val (Num a), Env.Val (Num b) ->  
                               (match bin with  
                               | Plus -> Env.Val (Num (a + b))
                               | Times -> Env.Val (Num (a * b))
-                              | Divide -> Env.Val (Num (a / b))
+                              | Divide -> Env.Val (Float 
+                                ((float_of_int a) /. (float_of_int b)))
                               | Minus -> Env.Val (Num (a - b))
                               | Equals -> Env.Val (Bool (a = b))
                               | LessThan -> Env.Val (Bool (a < b))
@@ -277,13 +284,16 @@ let rec eval_l (_exp : expr) (_env : Env.env) : Env.value =
     | Negate, Float f -> Env.Val (Float (-1. *. f))
     | Abs, Num n -> Env.Val (Num (abs n))
     | Abs, Float f -> Env.Val (Float (abs_float f))
+    | Sin, Num n -> Env.Val (Float(sin (float_of_int n)))
+    | Sin, Float f -> Env.Val (Float (sin f))
     | _ -> raise (EvalError "can not perform unop on number-less expression"))
   | Binop (bin, e1, e2) -> (match eval_l e1 _env, eval_l e2 _env with 
                             | Env.Val (Num a), Env.Val (Num b) ->  
                               (match bin with  
                               | Plus -> Env.Val (Num (a + b))
                               | Times -> Env.Val (Num (a * b))
-                              | Divide -> Env.Val (Num (a / b))
+                              | Divide -> Env.Val (Float 
+                                ((float_of_int a) /. (float_of_int b)))
                               | Minus -> Env.Val (Num (a - b))
                               | Equals -> Env.Val (Bool (a = b))
                               | LessThan -> Env.Val (Bool (a < b))
@@ -323,7 +333,10 @@ let rec eval_l (_exp : expr) (_env : Env.env) : Env.value =
   | Letrec (x, e1, e2) ->  
       let s = ref (Env.Val Unassigned) in 
       let nenv = Env.extend _env x s in 
-      let vD = eval_l e1 nenv in 
+      let vD = (match eval_l e1 nenv with 
+         | Val Unassigned -> raise (EvalError "must be valid letrec")
+         | Val x -> Env.Val x  
+         | _ -> raise (EvalError "must be valid letrec")) in
       s := vD ; (eval_l e2 nenv) 
 
   | App (e1, e2) ->  

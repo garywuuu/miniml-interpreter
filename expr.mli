@@ -11,6 +11,7 @@
 type unop =
   | Negate
   | Abs
+  | Sin
 ;;
 
 (* Binary operators *)

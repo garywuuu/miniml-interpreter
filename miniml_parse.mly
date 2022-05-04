@@ -11,6 +11,7 @@
 %token OPEN CLOSE
 %token LET DOT IN REC
 %token NEG
+%token SIN
 %token PLUS MINUS 
 %token TIMES DIVIDE
 %token LESSTHAN GREATERTHAN EQUALS
@@ -25,14 +26,14 @@
 %token <string> STRING
 %token ABS
 %token TRUE FALSE
-%token EMPTYLIST LEFTBRACKET RIGHTBRACKET LISTSEP
+
 
 %nonassoc IF 
 %left LESSTHAN GREATERTHAN EQUALS
 %left PLUS MINUS
 %left TIMES DIVIDE
-%right CONCAT POWER
-%nonassoc NEG ABS
+%right CONCAT POWER 
+%nonassoc NEG ABS SIN
 
 %start input
 %type <Expr.expr> input
@@ -61,12 +62,14 @@ expnoapp: INT                   { Num $1 }
         | exp GREATERTHAN exp   { Binop(GreaterThan, $1, $3) }
         | ABS exp               { Unop(Abs, $2) }
         | NEG exp               { Unop(Negate, $2) }
+        | SIN exp               { Unop(Sin, $2) }
         | IF exp THEN exp ELSE exp      { Conditional($2, $4, $6) }
         | LET ID EQUALS exp IN exp      { Let($2, $4, $6) }
         | LET REC ID EQUALS exp IN exp  { Letrec($3, $5, $7) }
         | FUNCTION ID DOT exp   { Fun($2, $4) } 
         | RAISE                 { Raise }
         | OPEN exp CLOSE        { $2 }
+
 ;
 
 %%
