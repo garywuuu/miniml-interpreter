@@ -3,10 +3,10 @@
                     MiniML -- Read-Eval-Print Loop
  *)
 
-module Ev = Evaluation ;;
-module MP = Miniml_parse ;;
-module ML = Miniml_lex ;;
-module Ex = Expr ;;
+module Ev = Evaluation 
+module MP = Miniml_parse 
+module ML = Miniml_lex 
+module Ex = Expr 
 
 open Printf ;;
 
@@ -45,7 +45,7 @@ let repl () =
            just extract the expression back out and print it *)
         match res with
         | Val resexp ->
-           printf "==> %s\n" (Ex.exp_to_abstract_string resexp)
+           printf "==> %s\n" (Ex. exp_to_concrete_string resexp)
         | _ -> failwith "not handling other cases yet"
       with
       | MP.Error -> printf "xx> parse error\n"

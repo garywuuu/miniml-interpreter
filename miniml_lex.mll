@@ -32,19 +32,30 @@
     create_hashtable 8 [
                        ("=", EQUALS);
                        ("<", LESSTHAN);
+                       (">", GREATERTHAN);
                        (".", DOT);
+                       ("^", CONCAT);
+                       ("**", POWER);
                        ("->", DOT);
                        (";;", EOF);
                        ("~-", NEG);
+                       ("~+", ABS);
                        ("+", PLUS);
+                       ("[]", EMPTYLIST);
+                       ("[", LEFTBRACKET);
+                       ("]", RIGHTBRACKET);
+                       (",", LISTSEP);
                        ("-", MINUS);
                        ("*", TIMES);
+                       ("/", DIVIDE);
                        ("(", OPEN);
                        (")", CLOSE)
                      ]
 }
 
 let digit = ['0'-'9']
+let float = digit* '.' digit*
+let string = '"' [^ '"']+ '"'
 let id = ['a'-'z'] ['a'-'z' '0'-'9']*
 let sym = ['(' ')'] | (['$' '&' '*' '+' '-' '/' '=' '<' '>' '^'
                             '.' '~' ';' '!' '?' '%' ':' '#']+)
@@ -54,6 +65,12 @@ rule token = parse
         { let num = int_of_string inum in
           INT num
         }
+  | float+ as ifloat
+        { let float = float_of_string ifloat in 
+          FLOAT float }
+  | string+ as istring
+        { let string = String.concat "" (String.split_on_char '"' istring) in 
+          STRING string }
   | id as word
         { try
             let token = Hashtbl.find keyword_table word in
