@@ -128,8 +128,8 @@ let rec eval_s (_exp : expr) (_env : Env.env) : Env.value =
   (* val_to_expr lets us handle subst cases later where we need the exp of an evaluated exp *)
   let val_to_expr (exp : expr) : expr = 
     match eval_s exp _env with 
-    | Val exp -> exp
-    | Closure (exp, env) -> raise (EvalError "Closure") in
+    | Env.Val exp -> exp
+    | Env.Closure (_, env) -> raise (EvalError "Closure") in
 
   match _exp with 
   | Num _ | Float _ | Bool _ | String _ | Fun _ -> Env.Val _exp 
