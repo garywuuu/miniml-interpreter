@@ -124,7 +124,6 @@ let eval_t (exp : expr) (_env : Env.env) : Env.value =
   Env.Val exp ;;
 
 (* The SUBSTITUTION MODEL evaluator -- to be completed *)
-   
 let rec eval_s (_exp : expr) (_env : Env.env) : Env.value =
   (* val_to_expr lets us handle subst cases later where we need the exp of an evaluated exp *)
   let val_to_expr (exp : expr) : expr = 

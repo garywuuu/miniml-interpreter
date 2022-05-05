@@ -140,7 +140,7 @@ let test_exp_to_concrete_string =
             = vars_of_list ["x"])
             "Double fun app";;
 
-let subst_tests =
+let test_subst =
     unit_test (subst ("x") (Num 10) (Binop(Plus, Var("x"), Var("x")))
            = Binop(Plus, Num(10), Num(10))) 
           "Binop Sub" ; 
@@ -239,4 +239,7 @@ let test_eval_l =
            Let("y", Num(12), App(App(Var("f"), Num(11)), Num(2)))))) empty_env
           = Env.Val (Num(42)))
           "eval_l all";;
-let _ = test_env_module ;; 
+
+let _ = test_env_module, test_eval_s, test_eval_d, test_eval_l, test_same_eval,
+  test_exp_to_abstract_string, test_exp_to_concrete_string, 
+  test_free_vars, test_subst;; 
