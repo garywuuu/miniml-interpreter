@@ -35,7 +35,7 @@ I change the parser file - miniml_parse.mly - file with the following code:
 ```
 Floats are treated almost identically to Nums as currently implemented by the given code, with the motivation being to maintain consistency with what most users are expecting the application to perform. Thus, an expression like "Float(2.0)" is evaluated almost exactly how something like "Num(3)" would be, throughout each of the evaluator functions. The expr.ml and expr.mli files are edited accordingly to account for the addition of Float expressions. They are also treated in similar capacities to Nums in the "expr.ml" file. Binary operators for floats exist in the same capacity as Nums, appropriately accounted for in the expr.ml file and most importantly in the evaluation.ml file with an added match case if both inputs to the Binop are floats. For the purposes of consistency, if the user inputs something like "3.0 * 3", an error will be returned. 
 
-![image](floats image)
+![image](pictures/floats.png)
 
 ### Strings
 A similar philosophy is applied to the second extended Atomic type : strings. 
@@ -55,9 +55,9 @@ I choose the String.split_on_char function to remove any single quotation marks 
 ```
 To help distinguish strings from other alphabetical expressions, I decided to add single quotes to the output of string expressions on their own, as seen in exp_to_concrete_string. 
 
-strings photo
+![image](pictures/strings.png)
 
-Similary to Floats, the evaluators treat strings almost exactly like they do with other atomic types, with the inclusion of a additional binop expression: the Concat operator, discussed in section 3. 
+Similar to Floats, the evaluators treat strings almost exactly like they do with other atomic types, with the inclusion of a additional binop expression: the Concat operator, discussed in section 3. 
 
 ## 2. Unary Operators
 
@@ -71,13 +71,11 @@ Implementation of this operator including creating a keyword "sin" in the .mll f
 ```
 Evaluation is pictured here and shows that regardless of num or float input type, the expression will evaluate to a float. Thus, one of the benefits of the float implementation is added precision in calculations, seen in Sin calculations. 
 
-sin image 
+![image](pictures/sin.png) 
 
 ### Abs Operator
 
 The Abs Operator also accepts Num and Float expressions, and outputs the absolute value of the expression, but keeps the initial type: abs(Num(x)) would return an integer while abs(Float(f)) would return a float. This is done for consistency across evaluations of expressions, and the less important effect of precision. The implementation is similar to Sin, but uses a symbol rather than keyword -> "~+". 
-
-abs image
 
 ## 3. Binary Operators 
 
@@ -133,4 +131,4 @@ We also know that eval_l and eval_s should provide similar outputs which is help
 
 Demonstration of Lexical Evaluator:
 
-lexical image
+![](pictures/)

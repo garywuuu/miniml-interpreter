@@ -122,6 +122,8 @@ module Env : ENV =
 let eval_t (exp : expr) (_env : Env.env) : Env.value =
   (* coerce the expr, unchanged, into a value *)
   Env.Val exp ;;
+
+(* this function abstracts away all the similar functionality between the evaluators *)
 let mult_evals (exp : expr) (_env : Env.env) eval =
    match exp with 
    | Num _ | Float _ | Bool _ | String _ -> Env.Val exp
@@ -178,7 +180,7 @@ let mult_evals (exp : expr) (_env : Env.env) eval =
 
 (* The SUBSTITUTION MODEL evaluator -- to be completed *)
 let rec eval_s (_exp : expr) (_env : Env.env) : Env.value =
-  (* val_to_expr lets us handle subst cases later where we need the exp of an evaluated exp *)
+  (* lets us handle subst cases later where we need the exp of an evaluated exp *)
   let val_to_expr (exp : expr) : expr = 
     match eval_s exp _env with 
     | Env.Val exp -> exp
@@ -224,7 +226,6 @@ let rec eval_d (_exp : expr) (_env : Env.env) : Env.value =
    completed as (part of) your extension *)
    
 let rec eval_l (_exp : expr) (_env : Env.env) : Env.value =
-  (* val_to_expr lets us handle subst cases later where we need the exp of an evaluated exp *)
   match _exp with 
   | Num _ | Float _ | Bool _ | String _ | Unop _ | Binop _ 
   | Conditional _ | Raise | Unassigned -> mult_evals _exp _env eval_l

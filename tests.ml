@@ -240,6 +240,8 @@ let test_eval_l =
           = Env.Val (Num(42)))
           "eval_l all";;
 
-let _ = test_env_module, test_eval_s, test_eval_d, test_eval_l, test_same_eval,
-  test_exp_to_abstract_string, test_exp_to_concrete_string, 
-  test_free_vars, test_subst;; 
+let _ = test_env_module, test_eval_s, test_eval_d, test_eval_l, test_same_eval eval_s,
+  test_same_eval eval_d, test_same_eval eval_l, test_exp_to_abstract_string, 
+  test_exp_to_concrete_string, test_free_vars, test_subst;; 
+
+
