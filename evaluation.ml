@@ -334,8 +334,8 @@ let rec eval_l (_exp : expr) (_env : Env.env) : Env.value =
       let s = ref (Env.Val Unassigned) in 
       let nenv = Env.extend _env x s in 
       let vD = (match eval_l e1 nenv with 
-         | Val Unassigned -> raise (EvalError "must be valid letrec")
-         | Val x -> Env.Val x  
+         | Env.Val Unassigned -> raise (EvalError "must be valid letrec")
+         | Env.Val x -> Env.Val x  
          | _ -> raise (EvalError "must be valid letrec")) in
       s := vD ; (eval_l e2 nenv) 
 
