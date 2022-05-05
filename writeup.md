@@ -91,7 +91,7 @@ A ** operator is included in the symbol table in the .mll file and is implemente
 
 A demonstration of evaluation is below:
 
-power image
+![image](pictures/power.png)
 
 
 ### Divide 
@@ -99,7 +99,7 @@ The divide operator outputs the value of the first input divided by the second i
 
 Demonstration of Divide: 
 
-divide image
+![image](pictures/divide.png)
 
 ### GreaterThan
 
@@ -107,7 +107,7 @@ The GreaterThan operator functions exactly as the LessThan operator does, just r
 
 Demonstration of GreaterThan: 
 
-greaterthan image
+![image](pictures/greaterthan.png)
 
 ### Concat
 
@@ -121,7 +121,7 @@ The addition of the String type allows for the implementation of a string concat
 
 Demonstration of Concat:
 
-concat image
+![image](pictures/concat.png)
 
 ## 4. Lexical Evaluator
 
@@ -129,6 +129,6 @@ Finally, a Lexical Evaluator is also implemented. Following the advice and rules
 
 We also know that eval_l and eval_s should provide similar outputs which is helpful in testing and comparison to eval_d. 
 
-Demonstration of Lexical Evaluator:
+Demonstration of Lexical Evaluator (evaluating to 42 instead of 44 in dynamic):
 
-![](pictures/)
+![image](pictures/lexical.png)
