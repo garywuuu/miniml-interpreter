@@ -1,6 +1,5 @@
 
-## project
-
+## MiniML CS51 Final Project - Gary Wu
 
 
 This repository contains the project repository for Harvard's
