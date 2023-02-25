@@ -1,8 +1,7 @@
 
-## MiniML CS51 Final Project - Gary Wu
+## MiniML Interpreter - Gary Wu
+
+Dynamically and lexically scoped implementation of an OCaml interpreter. Extended limits of OCaml language with native interoperability between different primitive data types. Implemented various binary and unary operators and a lexical evaluator. 
 
 
-This repository contains the project repository for Harvard's
-CS 51 class, Abstraction and Design in Computation.
 
-For more information, see [https://cs51.io](https://cs51.io). 
